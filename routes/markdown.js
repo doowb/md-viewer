@@ -25,7 +25,15 @@ exports.markdown = function (base) {
     }
 
     var body = file.readFileSync(root(path));
-    assemble(layout.replace(/{{>body}}/, body)).build(function (err, results) {
+    assemble(
+      layout.replace(/{{>body}}/, body),
+      {
+        metadata: {
+          plugins: ['routes/plugins/**/*.{js,coffee}']
+        }
+      }
+    )
+    .build(function (err, results) {
       if (err) {
         return res.error(err);
       }
